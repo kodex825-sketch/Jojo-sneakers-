@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JOJO SNEAKERS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET & BASE ─────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: #090909; scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: #090909;
+  color: #f0ede8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+img { display: block; max-width: 100%; }
+button, input, select, textarea { font-family: 'Syne', sans-serif; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 2px; }
+
+/* ── TOKENS ───────────────────────────── */
+:root {
+  --night: #090909;
+  --n2: #111;
+  --n3: #1a1a1a;
+  --n4: #242424;
+  --n5: #2e2e2e;
+  --gold: #c9a84c;
+  --gold2: #e8c96a;
+  --gold3: #f5e0a0;
+  --goldg: linear-gradient(135deg, #c9a84c 0%, #f5e0a0 50%, #c9a84c 100%);
+  --white: #f0ede8;
+  --muted: #666;
+  --muted2: #444;
+  --line: rgba(201,168,76,0.12);
+  --line2: rgba(201,168,76,0.22);
+  --wa: #25d366;
+  --r: 6px;
+  --r2: 12px;
+  --r3: 20px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --slow: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── INTRO ────────────────────────────── */
+#intro {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--night);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 24px;
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+#intro.exit { opacity: 0; transform: scale(1.03); pointer-events: none; }
+#intro.gone { display: none; }
+
+.ir-wrap {
+  position: relative; width: 96px; height: 96px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ir {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: var(--gold);
+  border-right-color: var(--gold2);
+  animation: spin 1.1s linear infinite;
+}
+.ir2 {
+  position: absolute; inset: 7px; border-radius: 50%;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(201,168,76,0.35);
+  animation: spin 1.9s linear infinite reverse;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.intro-img {
+  width: 70px; height: 70px; border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 28px rgba(201,168,76,0.3);
+  animation: ipop 0.6s var(--slow) 0.3s both;
+}
+@keyframes ipop { from { opacity:0; transform:scale(0.6); } to { opacity:1; transform:scale(1); } }
+
+.intro-text {
+  text-align: center;
+  animation: iup 0.6s var(--slow) 0.5s both;
+}
+@keyframes iup { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.intro-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 7vw, 38px);
+  font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 4px;
+}
+.intro-tag {
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); font-weight: 500;
+}
+
+.intro-progress {
+  width: 160px; height: 2px;
+  background: var(--n4); border-radius: 1px; overflow: hidden;
+  animation: iup 0.5s var(--slow) 0.7s both;
+}
+.intro-fill {
+  height: 100%; width: 0;
+  background: var(--goldg);
+  animation: ifill 1.6s var(--ease) 0.8s forwards;
+}
+@keyframes ifill { 0%{width:0} 70%{width:80%} 100%{width:100%} }
+
+/* ── TICKER ───────────────────────────── */
+#ticker {
+  background: var(--gold);
+  height: 30px; overflow: hidden;
+  display: flex; align-items: center;
+}
+.tk {
+  display: flex; white-space: nowrap;
+  animation: tickrun 30s linear infinite;
+}
+.tk span {
+  font-size: 9.5px; letter-spacing: 3px; text-transform: uppercase;
+  padding: 0 36px; font-weight: 700; color: var(--night);
+}
+@keyframes tickrun { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── NAVBAR ───────────────────────────── */
+#nav {
+  position: sticky; top: 0; z-index: 800;
+  background: rgba(9,9,9,0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--line);
+  height: 60px;
+  display: flex; align-items: center;
+  padding: 0 20px;
+  gap: 0;
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+  margin-right: auto;
+}
+.nav-logo-img {
+  width: 36px; height: 36px; border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 0 12px rgba(201,168,76,0.2);
+}
+.nav-logo-text { line-height: 1; }
+.nav-logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 1px;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-logo-sub {
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; margin-top: 1px;
+}
+
+/* Desktop links — hidden on mobile */
+.nav-links {
+  display: flex; gap: 2px;
+  margin-right: 16px;
+}
+.nav-link {
+  padding: 7px 14px;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--muted); background: none; border: none;
+  cursor: pointer; border-radius: 50px;
+  transition: 0.2s var(--ease);
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.nav-link:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+.nav-link.on { color: var(--gold); }
+
+/* Search */
+.nav-search-wrap { position: relative; margin-right: 8px; }
+#nsearch {
+  width: 150px; padding: 8px 12px;
+  background: var(--n3); border: 1px solid var(--line);
+  border-radius: 50px; font-size: 12.5px; color: var(--white);
+  outline: none; transition: 0.25s var(--ease);
+}
+#nsearch::placeholder { color: var(--muted); }
+#nsearch:focus { border-color: var(--gold); width: 180px; }
+
+/* Search results */
+#sresults {
+  display: none; position: absolute;
+  top: calc(100% + 8px); right: 0; width: 300px;
+  background: var(--n2); border: 1px solid var(--line2);
+  border-radius: var(--r2);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+  overflow: hidden; z-index: 999;
+}
+.sr-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 14px; cursor: pointer; transition: 0.18s;
+  border-bottom: 1px solid var(--line);
+}
+.sr-item:last-child { border-bottom: none; }
+.sr-item:hover { background: rgba(201,168,76,0.06); }
+.sr-item img { width: 40px; height: 40px; object-fit: cover; border-radius: var(--r); background: var(--n4); flex-shrink: 0; }
+.sr-item-name { font-size: 12.5px; font-weight: 600; }
+.sr-item-price { font-size: 11.5px; color: var(--gold); font-weight: 700; }
+.sr-none { padding: 18px; text-align: center; font-size: 13px; color: var(--muted); }
+
+/* Burger — shown on mobile */
+.burger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 6px;
+}
+.burger span {
+  width: 20px; height: 1.5px; background: var(--white);
+  display: block; border-radius: 2px; transition: 0.3s var(--ease);
+}
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile drawer */
+#drawer {
+  display: none;
+  position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+  background: rgba(9,9,9,0.98); backdrop-filter: blur(20px);
+  z-index: 790; padding: 24px 20px;
+  flex-direction: column; gap: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--ease);
+}
+#drawer.open { transform: translateX(0); }
+.drawer-search {
+  width: 100%; padding: 12px 14px; margin-bottom: 20px;
+  background: var(--n3); border: 1px solid var(--line2);
+  border-radius: var(--r2); font-size: 14px; color: var(--white); outline: none;
+}
+.drawer-search::placeholder { color: var(--muted); }
+.drawer-search:focus { border-color: var(--gold); }
+.drawer-link {
+  padding: 15px 0; border-bottom: 1px solid var(--line);
+  font-size: 17px; font-weight: 700; color: var(--muted);
+  cursor: pointer; transition: 0.2s;
+}
+.drawer-link:hover { color: var(--gold); padding-left: 8px; }
+
+/* ── HERO ─────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100svh; max-height: 800px;
+  overflow: hidden; background: var(--night);
+}
+@media (max-width: 600px) {
+  #hero { height: 100svh; min-height: 500px; max-height: 700px; }
+}
+
+.hslide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 1.4s var(--ease), transform 9s ease;
+  transform: scale(1.07);
+}
+.hslide.on { opacity: 1; transform: scale(1); }
+.hslide::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(9,9,9,0.82) 0%,
+    rgba(9,9,9,0.35) 55%,
+    rgba(9,9,9,0.05) 100%
+  );
+}
+
+/* Mobile overlay — gradient from bottom */
+@media (max-width: 768px) {
+  .hslide::after {
+    background: linear-gradient(
+      to top,
+      rgba(9,9,9,0.9) 0%,
+      rgba(9,9,9,0.45) 45%,
+      rgba(9,9,9,0.05) 100%
+    );
+  }
+}
+
+.hero-content {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(24px, 5vw, 80px);
+  max-width: min(640px, 100%);
+}
+@media (max-width: 600px) {
+  .hero-content { padding: 24px 20px 36px; max-width: 100%; }
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px;
+  opacity: 0; animation: aup 0.8s var(--slow) 0.1s forwards;
+}
+.hero-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-eyebrow-text {
+  font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+  color: rgba(240,237,232,0.55); font-weight: 600;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(50px, 10vw, 110px);
+  font-weight: 900; line-height: 0.9; letter-spacing: -2px;
+  color: var(--white); margin-bottom: 18px;
+  opacity: 0; animation: aup 0.9s var(--slow) 0.25s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(13px, 2.5vw, 15px);
+  color: rgba(240,237,232,0.5); font-weight: 400;
+  line-height: 1.7; max-width: 380px; margin-bottom: 30px;
+  opacity: 0; animation: aup 0.8s var(--slow) 0.4s forwards;
+}
+@media (max-width: 600px) { .hero-sub { display: none; } }
+
+.hero-buttons {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  opacity: 0; animation: aup 0.8s var(--slow) 0.55s forwards;
+}
+
+.btn-gold {
+  padding: 13px 32px;
+  background: var(--goldg); color: var(--night);
+  border: none; border-radius: 50px;
+  font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: 0.25s var(--ease);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  white-space: nowrap;
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.45); }
+
+.btn-outline-gold {
+  padding: 13px 26px;
+  background: rgba(201,168,76,0.08); color: var(--gold);
+  border: 1px solid var(--line2); border-radius: 50px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: 0.22s;
+  white-space: nowrap;
+}
+.btn-outline-gold:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+
+/* Slide indicators */
+.hero-dots {
+  position: absolute; bottom: 24px; right: 24px; z-index: 3;
+  display: flex; gap: 6px;
+}
+.hero-dot-btn {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(240,237,232,0.2);
+  border: none; cursor: pointer; transition: 0.3s;
+}
+.hero-dot-btn.on { background: var(--gold); transform: scale(1.3); }
+
+@keyframes aup { to { opacity:1; transform:translateY(0); } }
+
+/* ── FEATURE STRIP ───────────────────── */
+#strip {
+  background: var(--n2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto; scrollbar-width: none;
+  display: flex;
+}
+#strip::-webkit-scrollbar { display: none; }
+.strip-item {
+  padding: 16px 28px;
+  display: flex; align-items: center; gap: 9px;
+  border-right: 1px solid var(--line);
+  flex-shrink: 0; white-space: nowrap;
+}
+.strip-item:last-child { border-right: none; }
+.strip-icon { font-size: 16px; }
+.strip-text { font-size: 12px; font-weight: 500; color: var(--muted); }
+.strip-text strong { color: var(--white); }
+
+/* ── LAYOUT WRAPPER ─────────────────── */
+.wrap { max-width: 1360px; margin: 0 auto; padding: 0 20px; }
+
+/* ── FILTER BAR ─────────────────────── */
+#filterbar {
+  padding: 36px 0 20px;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap;
+  gap: 14px;
+}
+.filter-tabs {
+  display: flex; gap: 4px;
+  background: var(--n3); border-radius: 50px;
+  padding: 4px; border: 1px solid var(--line);
+  overflow-x: auto; scrollbar-width: none;
+}
+.filter-tabs::-webkit-scrollbar { display: none; }
+.ftab {
+  padding: 8px 18px; border-radius: 50px;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer; border: none; background: transparent;
+  color: var(--muted); transition: 0.2s var(--ease);
+  white-space: nowrap; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.ftab:hover { color: var(--white); }
+.ftab.on {
+  background: var(--goldg); color: var(--night);
+  box-shadow: 0 2px 12px rgba(201,168,76,0.3);
+}
+
+/* Section header */
+.section-eye {
+  font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 6px;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.section-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 700; color: var(--white); letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+.section-h em { font-style: italic; color: rgba(240,237,232,0.35); }
+
+/* ── PRODUCT GRID ───────────────────── */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding-bottom: 72px;
+}
+@media (min-width: 540px)  { #grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+@media (min-width: 860px)  { #grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+@media (min-width: 1160px) { #grid { grid-template-columns: repeat(5, 1fr); gap: 18px; } }
+
+/* ── CARD ───────────────────────────── */
+.card {
+  background: var(--n2);
+  border-radius: var(--r2); overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s;
+  animation: cardIn 0.5s var(--slow) both;
+  position: relative;
+}
+@keyframes cardIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--line2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.08);
+}
+
+.card-badge {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  padding: 2px 9px; border-radius: 50px;
+  font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  background: var(--goldg); color: var(--night);
+}
+
+.card-img {
+  width: 100%; aspect-ratio: 1/1;
+  overflow: hidden; background: var(--n4); position: relative;
+}
+.card-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.card:hover .card-img img { transform: scale(1.07); }
+
+.card-hover-cta {
+  position: absolute; inset: 0;
+  background: rgba(9,9,9,0.45);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 12px;
+  opacity: 0; transition: 0.25s;
+}
+.card:hover .card-hover-cta { opacity: 1; }
+.card-cta-btn {
+  padding: 7px 18px;
+  background: var(--goldg); color: var(--night);
+  border: none; border-radius: 50px;
+  font-size: 9.5px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer;
+  transform: translateY(6px); transition: 0.22s;
+}
+.card:hover .card-cta-btn { transform: translateY(0); }
+
+.card-body { padding: 11px 12px 13px; }
+.card-cat {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin-bottom: 3px;
+}
+.card-name {
+  font-size: 13px; font-weight: 700; color: var(--white);
+  margin-bottom: 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 700;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── EMPTY STATE ────────────────────── */
+.empty-state {
+  grid-column: 1/-1; padding: 80px 20px;
+  text-align: center; color: var(--muted);
+}
+.empty-state p { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.empty-state span { font-size: 13px; }
+
+/* ── DETAIL SCREEN ──────────────────── */
+#detail {
+  display: none; position: fixed; inset: 0; z-index: 780;
+  background: var(--night); overflow-y: auto;
+}
+.detail-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(9,9,9,0.93); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px; height: 56px;
+}
+.detail-back {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; font-size: 13px; font-weight: 600;
+  color: var(--muted); cursor: pointer; transition: 0.18s;
+}
+.detail-back:hover { color: var(--gold); }
+.detail-crumb { font-size: 12px; color: var(--muted); }
+.detail-crumb b { color: var(--white); }
+
+.detail-body {
+  max-width: 1060px; margin: 0 auto;
+  padding: clamp(24px, 5vw, 52px) 20px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 5vw, 64px); align-items: start;
+}
+@media (max-width: 740px) {
+  .detail-body { grid-template-columns: 1fr; gap: 20px; }
+}
+
+.detail-img-box {
+  border-radius: var(--r2); overflow: hidden;
+  aspect-ratio: 1/1; background: var(--n3);
+  border: 1px solid var(--line);
+}
+@media (min-width: 741px) {
+  .detail-img-box { position: sticky; top: 76px; }
+}
+.detail-img-box img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s;
+}
+.detail-img-box:hover img { transform: scale(1.03); }
+
+.detail-info { display: flex; flex-direction: column; }
+.detail-cat {
+  font-size: 9.5px; letter-spacing: 3.5px; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 10px;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.detail-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900; line-height: 0.95; letter-spacing: -1px;
+  color: var(--white); margin-bottom: 14px;
+}
+.detail-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 700; margin-bottom: 18px;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.detail-divider { height: 1px; background: var(--line); margin-bottom: 18px; }
+.detail-desc {
+  font-size: 14.5px; color: rgba(240,237,232,0.5);
+  line-height: 1.75; margin-bottom: 24px;
+}
+.detail-delivery {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 15px;
+  background: rgba(37,211,102,0.05);
+  border: 1px solid rgba(37,211,102,0.15);
+  border-radius: var(--r); margin-bottom: 22px;
+}
+.delivery-icon { font-size: 18px; animation: truck 2s ease-in-out infinite; }
+@keyframes truck { 0%,100%{transform:translateX(0)} 50%{transform:translateX(3px)} }
+.delivery-title { font-size: 13px; font-weight: 700; color: #22c55e; }
+.delivery-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+.detail-actions { display: flex; flex-direction: column; gap: 9px; }
+.btn-wa {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 15px 22px; background: var(--wa); color: #fff;
+  border: none; border-radius: var(--r); font-size: 12.5px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  transition: 0.24s var(--ease);
+}
+.btn-wa:hover { background: #1db954; transform: translateY(-2px); box-shadow: 0 8px 26px rgba(37,211,102,0.3); }
+.btn-back-detail {
+  padding: 13px 22px; background: transparent; color: var(--white);
+  border: 1px solid var(--line2); border-radius: var(--r);
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  cursor: pointer; transition: 0.2s;
+}
+.btn-back-detail:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── FOOTER ─────────────────────────── */
+footer {
+  background: var(--n2);
+  border-top: 1px solid var(--line);
+  padding: clamp(40px, 6vw, 64px) 20px 28px;
+}
+.footer-grid {
+  max-width: 1360px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(28px, 5vw, 64px); margin-bottom: 36px;
+}
+@media (max-width: 660px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+.footer-brand-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.footer-brand-img {
+  width: 36px; height: 36px; border-radius: 50%;
+  object-fit: cover; border: 1.5px solid var(--gold);
+}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.footer-desc {
+  font-size: 13px; color: rgba(240,237,232,0.35); line-height: 1.7;
+  max-width: 260px; margin-bottom: 16px;
+}
+.footer-wa {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px;
+  background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2);
+  border-radius: 50px; font-size: 12.5px; font-weight: 700;
+  color: var(--wa); cursor: pointer; transition: 0.2s;
+}
+.footer-wa:hover { background: var(--wa); color: var(--night); }
+.footer-col h5 {
+  font-size: 9.5px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(240,237,232,0.25); font-weight: 700; margin-bottom: 14px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 9px; }
+.footer-col ul li a {
+  font-size: 13px; color: rgba(240,237,232,0.45);
+  text-decoration: none; cursor: pointer; transition: 0.18s;
+}
+.footer-col ul li a:hover { color: var(--gold); }
+.footer-bottom {
+  max-width: 1360px; margin: 0 auto;
+  border-top: 1px solid var(--line); padding-top: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11.5px; color: rgba(240,237,232,0.22);
+  flex-wrap: wrap; gap: 8px;
+}
+.hd-link {
+  color: var(--gold); text-decoration: none; font-weight: 700;
+  transition: 0.18s;
+}
+.hd-link:hover { color: var(--gold2); }
+
+/* ── ADMIN BUTTON ───────────────────── */
+#admin-btn {
+  position: fixed; bottom: 24px; right: 20px; z-index: 600;
+  width: 48px; height: 48px;
+  background: var(--goldg); color: var(--night);
+  border-radius: 50%; border: none; font-size: 17px;
+  cursor: pointer; font-weight: 900;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.24s var(--ease);
+}
+#admin-btn:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(201,168,76,0.55); }
+
+/* ── OVERLAYS ───────────────────────── */
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 1100;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+  align-items: center; justify-content: center; padding: 16px;
+}
+.overlay.open { display: flex; }
+
+/* PW box */
+.pw-box {
+  background: var(--n2); border: 1px solid var(--line2);
+  border-radius: var(--r2); padding: clamp(28px,5vw,40px) clamp(20px,5vw,32px);
+  width: 100%; max-width: 340px; text-align: center;
+  animation: modalIn 0.3s var(--slow);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.9);
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+.pw-icon { font-size: 32px; margin-bottom: 12px; }
+.pw-title {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  font-weight: 700; margin-bottom: 5px; color: var(--white);
+}
+.pw-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 20px; }
+.pw-input {
+  width: 100%; padding: 11px 14px;
+  background: var(--n3); border: 1px solid var(--line2); border-radius: var(--r);
+  font-size: 15px; text-align: center; letter-spacing: 5px; color: var(--white);
+  outline: none; margin-bottom: 9px; transition: 0.2s;
+}
+.pw-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+.pw-btn {
+  width: 100%; padding: 11px;
+  background: var(--goldg); color: var(--night);
+  border: none; border-radius: var(--r);
+  font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: 0.2s;
+}
+.pw-btn:hover { box-shadow: 0 4px 18px rgba(201,168,76,0.4); }
+.pw-err { font-size: 11.5px; color: #ef4444; margin-top: 7px; display: none; }
+.pw-cancel { display: inline-block; margin-top: 11px; font-size: 11.5px; color: var(--muted); cursor: pointer; }
+.pw-cancel:hover { color: var(--white); }
+
+/* Admin modal */
+.admin-box {
+  background: var(--n2); border: 1px solid var(--line2);
+  border-radius: var(--r2); width: 100%; max-width: 480px;
+  max-height: 90vh; overflow-y: auto;
+  animation: modalIn 0.3s var(--slow);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.9);
+}
+.admin-box::-webkit-scrollbar { width: 3px; }
+.admin-box::-webkit-scrollbar-thumb { background: var(--n5); }
+.admin-top {
+  padding: 20px 20px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.admin-title {
+  font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--white);
+}
+.admin-title em {
+  font-style: italic;
+  background: var(--goldg);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.close-btn {
+  width: 30px; height: 30px; background: var(--n4); border: none;
+  border-radius: 50%; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); transition: 0.18s;
+}
+.close-btn:hover { color: var(--white); background: var(--n5); }
+.admin-tabs {
+  display: flex; border-bottom: 1px solid var(--line);
+  padding: 0 20px; margin-top: 16px;
+}
+.atab {
+  padding: 9px 16px; background: none; border: none;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent;
+  transition: 0.2s; text-transform: uppercase; letter-spacing: 1px;
+}
+.atab.on { color: var(--gold); border-bottom-color: var(--gold); }
+.admin-body { padding: 20px; }
+
+/* Form */
+.form-group { margin-bottom: 15px; }
+.form-label {
+  display: block; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 10px 12px;
+  background: var(--n3); border: 1px solid var(--line);
+  border-radius: var(--r); font-size: 13px; color: var(--white); outline: none; transition: 0.2s;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--muted2); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201,168,76,0.08); }
+.form-textarea { min-height: 70px; resize: vertical; }
+.form-select { cursor: pointer; }
+.form-select option { background: var(--n2); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Photo upload */
+.photo-zone {
+  width: 100%; aspect-ratio: 16/7;
+  border: 2px dashed rgba(201,168,76,0.22);
+  border-radius: var(--r); background: var(--n3);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 7px;
+  cursor: pointer; transition: 0.22s; position: relative; overflow: hidden;
+}
+.photo-zone:hover { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+.photo-zone.has-preview { border-style: solid; border-color: rgba(201,168,76,0.3); }
+.photo-icon { font-size: 26px; }
+.photo-text { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.photo-sub { font-size: 10px; color: var(--muted2); }
+#photo-input { display: none; }
+.preview-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.preview-clear {
+  position: absolute; top: 7px; right: 7px; width: 25px; height: 25px;
+  background: rgba(9,9,9,0.8); color: var(--white); border: none;
+  border-radius: 50%; cursor: pointer; font-size: 11px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.btn-publish {
+  width: 100%; padding: 13px; margin-top: 2px;
+  background: var(--goldg); color: var(--night); border: none;
+  border-radius: var(--r); font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: 0.22s;
+  box-shadow: 0 4px 18px rgba(201,168,76,0.25);
+}
+.btn-publish:hover { box-shadow: 0 6px 26px rgba(201,168,76,0.4); }
+.btn-publish:disabled { opacity: 0.4; cursor: default; box-shadow: none; }
+
+/* Status bar */
+#status-bar {
+  padding: 9px 12px; border-radius: var(--r);
+  font-size: 12.5px; font-weight: 600;
+  margin-bottom: 13px; display: none; border: 1px solid;
+}
+.s-ok { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.18); color: #22c55e; }
+.s-err { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.18); color: #ef4444; }
+.s-wait { background: var(--n3); border-color: var(--line); color: var(--muted); }
+
+/* Admin product list */
+.admin-row {
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 0; border-bottom: 1px solid var(--line);
+}
+.admin-row:last-child { border-bottom: none; }
+.admin-row img {
+  width: 44px; height: 44px; object-fit: cover;
+  border-radius: var(--r); background: var(--n4); flex-shrink: 0;
+}
+.admin-row-info { flex: 1; min-width: 0; }
+.admin-row-name { font-size: 12.5px; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-row-price { font-size: 11.5px; color: var(--gold); font-weight: 700; }
+.delete-btn {
+  width: 28px; height: 28px; background: rgba(239,68,68,0.08);
+  border: none; border-radius: var(--r); cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: #ef4444; transition: 0.18s; flex-shrink: 0;
+}
+.delete-btn:hover { background: #ef4444; color: white; }
+
+/* ── TOAST ──────────────────────────── */
+#toast {
+  position: fixed; bottom: 80px; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--n2); border: 1px solid var(--line2);
+  color: var(--white); padding: 10px 22px; border-radius: 50px;
+  font-size: 12.5px; font-weight: 600; z-index: 9999;
+  opacity: 0; transition: 0.3s var(--ease); pointer-events: none;
+  white-space: nowrap; box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.t-ok { border-color: rgba(34,197,94,0.3); color: #22c55e; }
+#toast.t-err { border-color: rgba(239,68,68,0.3); color: #ef4444; }
+
+/* ── RESPONSIVE FIXES ───────────────── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-search-wrap { display: none; }
+  .burger { display: flex; }
+  #drawer { display: flex; }
+}
+@media (max-width: 380px) {
+  .hero-title { font-size: 44px; letter-spacing: -1px; }
+  .btn-gold, .btn-outline-gold { padding: 11px 22px; font-size: 10px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="ir-wrap">
+    <div class="ir"></div>
+    <div class="ir2"></div>
+    <img class="intro-img"
+      src="https://image.noelshack.com/fichiers/2025/50/7/1765747492-img-20251214-wa0083.jpg"
+      alt="Logo JOJO SNEAKERS"
+      onerror="this.style.background='#1a1a1a'">
+  </div>
+  <div class="intro-text">
+    <div class="intro-name">JOJO SNEAKERS</div>
+    <div class="intro-tag">Streetwear & Style — Abidjan</div>
+  </div>
+  <div class="intro-progress"><div class="intro-fill"></div></div>
+</div>
+
+<!-- TICKER -->
+<div id="ticker"><div class="tk">
+  <span>Livraison rapide</span>
+  <span>Sneakers Premium</span>
+  <span>Qualité garantie</span>
+  <span>Contactez-nous</span>
+  <span>JOJO SNEAKERS</span>
+  <span>Livraison rapide</span>
+  <span>Sneakers Premium</span>
+  <span>Qualité garantie</span>
+  <span>Contactez-nous</span>
+  <span>JOJO SNEAKERS</span>
+</div></div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <img class="nav-logo-img"
+      src="https://image.noelshack.com/fichiers/2025/50/7/1765747492-img-20251214-wa0083.jpg"
+      alt="" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      <div class="nav-logo-name">JOJO SNEAKERS</div>
+      <div class="nav-logo-sub">Streetwear & Style</div>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <button class="nav-link on" onclick="filterCat('all',this)">Tout</button>
+    <button class="nav-link" onclick="filterCat('chaussures',this)">Sneakers</button>
+    <button class="nav-link" onclick="filterCat('vetements',this)">Vêtements</button>
+    <button class="nav-link" onclick="filterCat('accessoires',this)">Accessoires</button>
+  </div>
+
+  <div class="nav-search-wrap">
+    <input id="nsearch" type="text" placeholder="Rechercher…"
+      oninput="doSearch(this.value)"
+      onblur="setTimeout(()=>document.getElementById('sresults').style.display='none',200)">
+    <div id="sresults"></div>
+  </div>
+
+  <button class="burger" id="burger" onclick="toggleDrawer()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="drawer">
+  <input class="drawer-search" type="text" placeholder="Rechercher un produit…" oninput="doSearch(this.value)">
+  <div class="drawer-link" onclick="filterCat('all');closeDrawer()">Tous les articles</div>
+  <div class="drawer-link" onclick="filterCat('chaussures');closeDrawer()">Sneakers</div>
+  <div class="drawer-link" onclick="filterCat('vetements');closeDrawer()">Vêtements</div>
+  <div class="drawer-link" onclick="filterCat('accessoires');closeDrawer()">Accessoires</div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hslide on" style="background-image:url('https://image.noelshack.com/fichiers/2025/51/1/1765806134-868708-uploaded-image1-1566560581-43.jpeg')"></div>
+  <div class="hslide" style="background-image:url('https://image.noelshack.com/fichiers/2025/51/1/1765806134-les-meilleures-chaussures-nike-avec-amorti-pour-courir-et-pour-marcher.jpg')"></div>
+  <div class="hslide" style="background-image:url('https://image.noelshack.com/fichiers/2025/51/1/1765806176-les-meilleures-sneakers-montantes-nike-disponibles-en-ce-moment-articles-ogc.jpg')"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-dot"></div>
+      <span class="hero-eyebrow-text">Nouvelle collection disponible</span>
+    </div>
+    <h1 class="hero-title">Style.<br><em>Sans Limite.</em></h1>
+    <p class="hero-sub">Sneakers et streetwear premium au meilleur prix. Livraison rapide disponible à Abidjan.</p>
+    <div class="hero-buttons">
+      <button class="btn-gold" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Voir la collection</button>
+      <button class="btn-outline-gold" onclick="window.open('https://wa.me/2250140210566','_blank')">WhatsApp</button>
+    </div>
+  </div>
+
+  <div class="hero-dots">
+    <button class="hero-dot-btn on" onclick="goSlide(0)"></button>
+    <button class="hero-dot-btn" onclick="goSlide(1)"></button>
+    <button class="hero-dot-btn" onclick="goSlide(2)"></button>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div id="strip">
+  <div class="strip-item">
+    <span class="strip-icon">🚚</span>
+    <span class="strip-text"><strong>Livraison rapide</strong> disponible</span>
+  </div>
+  <div class="strip-item">
+    <span class="strip-icon">✅</span>
+    <span class="strip-text"><strong>Qualité</strong> garantie</span>
+  </div>
+  <div class="strip-item">
+    <span class="strip-icon">💬</span>
+    <span class="strip-text"><strong>WhatsApp</strong> +225 01 40 21 05 66</span>
+  </div>
+  <div class="strip-item">
+    <span class="strip-icon">📍</span>
+    <span class="strip-text"><strong>Abidjan</strong> et environs</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="wrap">
+  <!-- Filter bar -->
+  <div id="filterbar">
+    <div class="filter-tabs">
+      <button class="ftab on" onclick="filterCat('all',this)">Tout</button>
+      <button class="ftab" onclick="filterCat('chaussures',this)">Sneakers</button>
+      <button class="ftab" onclick="filterCat('vetements',this)">Vêtements</button>
+      <button class="ftab" onclick="filterCat('accessoires',this)">Accessoires</button>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="section-eye" id="sec-eye">Collection complète</div>
+  <h2 class="section-h" id="sec-h">Tous nos <em>articles</em></h2>
+
+  <!-- Grid -->
+  <div id="grid"></div>
+</div>
+
+<!-- DETAIL SCREEN -->
+<div id="detail">
+  <div class="detail-nav">
+    <button class="detail-back" onclick="closeDetail()">
+      ← Retour
+    </button>
+    <span class="detail-crumb">JOJO SNEAKERS / <b id="d-crumb">Produit</b></span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-img-box">
+      <img id="d-img" src="" alt="">
+    </div>
+    <div class="detail-info">
+      <div class="detail-cat" id="d-cat"></div>
+      <h1 class="detail-name" id="d-name"></h1>
+      <div class="detail-price" id="d-price"></div>
+      <div class="detail-divider"></div>
+      <p class="detail-desc" id="d-desc"></p>
+      <div class="detail-delivery">
+        <span class="delivery-icon">🚚</span>
+        <div>
+          <div class="delivery-title">Livraison rapide</div>
+          <div class="delivery-sub">Contactez-nous sur WhatsApp pour organiser</div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-wa" id="d-wa-btn">
+          <img src="https://img.icons8.com/?size=100&id=964RahB4l606&format=png&color=000000"
+            style="width:18px;filter:brightness(0) invert(1)" alt="">
+          Commander sur WhatsApp
+        </button>
+        <button class="btn-back-detail" onclick="closeDetail()">Retour aux articles</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-row">
+        <img class="footer-brand-img"
+          src="https://image.noelshack.com/fichiers/2025/50/7/1765747492-img-20251214-wa0083.jpg"
+          alt="" onerror="this.style.display='none'">
+        <span class="footer-brand-name">JOJO SNEAKERS</span>
+      </div>
+      <p class="footer-desc">Ta destination pour les sneakers et le streetwear à Abidjan. Qualité premium, livraison rapide.</p>
+      <div class="footer-wa" onclick="window.open('https://wa.me/2250140210566','_blank')">
+        📱 +225 01 40 21 05 66
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Catalogue</h5>
+      <ul>
+        <li><a onclick="filterCat('chaussures');window.scrollTo(0,0)">Sneakers</a></li>
+        <li><a onclick="filterCat('vetements');window.scrollTo(0,0)">Vêtements</a></li>
+        <li><a onclick="filterCat('accessoires');window.scrollTo(0,0)">Accessoires</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Service</h5>
+      <ul>
+        <li><a>Livraison rapide</a></li>
+        <li><a>Qualité garantie</a></li>
+        <li><a onclick="window.open('https://wa.me/2250140210566','_blank')">Nous contacter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 JOJO SNEAKERS. Tous droits réservés.</span>
+    <span>Made by <a class="hd-link" href="https://rachid601-max.github.io/Hassan-portfolio/" target="_blank" rel="noopener">Hassan Digital</a></span>
+  </div>
+</footer>
+
+<!-- ADMIN BUTTON -->
+<button id="admin-btn" onclick="openGate()" title="Admin">⚙</button>
+<div id="toast"></div>
+
+<!-- PASSWORD OVERLAY -->
+<div class="overlay" id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-icon">🔐</div>
+    <div class="pw-title">Accès Admin</div>
+    <div class="pw-sub">Entrez votre mot de passe</div>
+    <input type="password" id="pw-input" class="pw-input" placeholder="••••••"
+      onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Entrer</button>
+    <div id="pw-err" class="pw-err">Mot de passe incorrect</div>
+    <div class="pw-cancel" onclick="closeGate()">Annuler</div>
+  </div>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="overlay" id="admin-overlay">
+  <div class="admin-box">
+    <div class="admin-top">
+      <div class="admin-title"><em>Admin</em> Panel</div>
+      <button class="close-btn" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="atab on" onclick="switchTab('add',this)">Ajouter produit</button>
+      <button class="atab" onclick="switchTab('list',this)">Mes produits</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- ADD TAB -->
+      <div id="tab-add">
+        <div id="status-bar"></div>
+
+        <div class="form-group">
+          <label class="form-label">Photo du produit</label>
+          <div class="photo-zone" id="photo-zone" onclick="document.getElementById('photo-input').click()">
+            <input type="file" id="photo-input" accept="image/*" onchange="handlePhoto(this)">
+            <span class="photo-icon">📷</span>
+            <span class="photo-text">Appuyer pour choisir une photo</span>
+            <span class="photo-sub">Galerie ou appareil photo</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nom du produit</label>
+          <input type="text" id="f-name" class="form-input" placeholder="Ex: Nike Air Max 90">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Catégorie</label>
+            <select id="f-cat" class="form-select">
+              <option value="chaussures">Sneakers</option>
+              <option value="vetements">Vêtements</option>
+              <option value="accessoires">Accessoires</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prix (FCFA)</label>
+            <input type="number" id="f-price" class="form-input" placeholder="Ex: 18000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="f-desc" class="form-textarea" placeholder="Décrivez votre produit…"></textarea>
+        </div>
+
+        <button class="btn-publish" id="pub-btn" onclick="addProduct()">Publier le produit</button>
+      </div>
+
+      <!-- LIST TAB -->
+      <div id="tab-list" style="display:none;">
+        <div id="admin-list">
+          <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─── CONFIG ────────────────────────── */
+const PASS = 'jojo2025';
+const WA_NUM = '2250140210566';
+const STORE_KEY = 'jojo_store_v6';
+
+/* ─── BASE PRODUCTS ─────────────────── */
+const BASE = [
+  {id:'b01',n:'Maillot Aston Villa',c:'vetements',p:'10500',d:'Maillot de football qualité premium.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765744219-img-20251214-wa0062.jpg'},
+  {id:'b02',n:'Maillot Inter Miami',c:'vetements',p:'10500',d:'Maillot respirant, idéal pour le sport.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765744219-img-20251214-wa0059.jpg'},
+  {id:'b03',n:'Maillot PSG',c:'vetements',p:'10500',d:'Maillot tendance, parfait pour match et sortie.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765744262-img-20251214-wa0067.jpg'},
+  {id:'b04',n:'Maillot Santos',c:'vetements',p:'10500',d:'Maillot tendance, très confortable.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746469-img-20251214-wa0057.jpg'},
+  {id:'b05',n:'Sneakers Puma',c:'chaussures',p:'18000',d:'Sneakers tendance, confortables et stylées.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746664-img-20251214-wa0037.jpg'},
+  {id:'b06',n:'Sneakers ASICS',c:'chaussures',p:'20000',d:'Sneakers premium, finition soignée.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746689-img-20251214-wa0036.jpg'},
+  {id:'b07',n:'Sneakers Nike',c:'chaussures',p:'20000',d:'Sneakers résistantes, parfaites pour sorties.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746689-img-20251214-wa0038.jpg'},
+  {id:'b08',n:'Jordan Sneakers',c:'chaussures',p:'15000',d:'Sneakers simples et élégantes.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746717-img-20251214-wa0039.jpg'},
+  {id:'b09',n:'Jordan Vol.2',c:'chaussures',p:'15000',d:'Confort assuré pour usage quotidien.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746717-img-20251214-wa0040.jpg'},
+  {id:'b10',n:'Nike Streetwear',c:'chaussures',p:'18000',d:'Design moderne streetwear.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746758-img-20251214-wa0041.jpg'},
+  {id:'b11',n:'New Balance',c:'chaussures',p:'18000',d:'Sneakers solides et stylées.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746758-img-20251214-wa0043.jpg'},
+  {id:'b12',n:'ASICS Classic',c:'chaussures',p:'13000',d:'Sneakers accessibles, bon style.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746785-img-20251214-wa0042.jpg'},
+  {id:'b13',n:'Nike Classic',c:'chaussures',p:'13000',d:'Sneakers simples, petit budget.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746785-img-20251214-wa0044.jpg'},
+  {id:'b14',n:'Adidas Campus',c:'chaussures',p:'20000',d:'Sneakers haut de gamme, finition premium.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746816-img-20251214-wa0052.jpg'},
+  {id:'b15',n:'Puma Premium',c:'chaussures',p:'20000',d:'Sneakers modernes et résistantes.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746816-img-20251214-wa0051.jpg'},
+  {id:'b16',n:'Adidas Samba',c:'chaussures',p:'15000',d:'Polyvalentes, confort assuré.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746846-img-20251214-wa0054.jpg'},
+  {id:'b17',n:'Adidas Samba Lite',c:'chaussures',p:'15000',d:'Confortables et faciles à porter.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765746846-img-20251214-wa0053.jpg'},
+  {id:'b18',n:'Converse Chuck Taylor Noir',c:'chaussures',p:'20000',d:'Style intemporel, confort parfait.',i:'https://image.noelshack.com/fichiers/2025/51/1/1765775564-8c2ba083723646e29ab07c721f75b7a1.jpg'},
+  {id:'b19',n:'Converse Chuck Taylor Blanc',c:'chaussures',p:'20000',d:'Légère et stylée, toutes saisons.',i:'https://image.noelshack.com/fichiers/2025/51/1/1765775752-converse-unisex-chuck-taylor-all-star-low-top-shoes-m9166-01.jpg'},
+  {id:'b20',n:'Converse Chuck Taylor',c:'chaussures',p:'20000',d:'Design authentique et durable.',i:'https://image.noelshack.com/fichiers/2025/51/1/1765775564-2023-06-03-647b8f95e85c8.jpeg'},
+  {id:'b21',n:'New Balance Premium',c:'chaussures',p:'20000',d:'Confort premium, design moderne.',i:'https://image.noelshack.com/fichiers/2025/51/1/1765775729-da264d9a9dda40598d389ce815fce187.jpg'},
+  {id:'b22',n:'Nike TN Voltage Purple',c:'chaussures',p:'16000',d:'Design stylé et confortable.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765714173-2023-12-11-onl-nike-tn-voltage-purple-striper-800x800-04.jpg'},
+  {id:'b23',n:'Vans KNU Skool',c:'chaussures',p:'18000',d:'Parfaite pour le skate et casual.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765714232-vans-knu-skool-black-white-skate-shoes-189550-ca.jpg'},
+  {id:'b24',n:'Asics Gel 1130',c:'chaussures',p:'20000',d:'Confort et performance au quotidien.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765716301-sneakers-asics-womens-gel-1130-1202a164-116.jpg'},
+  {id:'b25',n:'Air Jordan',c:'chaussures',p:'20000',d:'Icône du style et confort légendaire.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765716330-6d0f372ab38214ac5b2ff312c55bf08d.jpg'},
+  {id:'b26',n:'Nike TN Air Max Plus',c:'chaussures',p:'16000',d:'Confort et style pour tous les jours.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765716344-air-max-plus.png'},
+  {id:'b27',n:'Sac Eastpak',c:'accessoires',p:'18000',d:'Pratique et stylé pour vos déplacements.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765716409-1.jpg'},
+  {id:'b28',n:'Sac Essentiel',c:'accessoires',p:'15000',d:'Grande capacité, style hip-hop.',i:'https://image.noelshack.com/fichiers/2025/50/7/1765716469-esgentials-sac-dos-noir-blanc-pour-homme-et-femme-hip-hop-d-contract-grande-capacit-tanche.jpg'},
+];
+
+/* ─── STATE ─────────────────────────── */
+let ALL = [], FILTERED = [], currentCat = 'all';
+let photoData = null, heroIdx = 0, heroTimer = null;
+
+/* ─── STORAGE ───────────────────────── */
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function save(arr) { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); }
+
+/* ─── FORMAT ────────────────────────── */
+function fmt(p) { const n = parseInt(p); return isNaN(n) ? p : n.toLocaleString('fr-FR') + ' FCFA'; }
+function catLabel(c) { return c==='chaussures'?'Sneakers':c==='vetements'?'Vêtements':'Accessoires'; }
+function getName(p) { return p.n || p.name || ''; }
+function getImg(p)  { return p.i || p.img  || ''; }
+function getPrice(p){ return p.p || p.price || ''; }
+function getCat(p)  { return p.c || p.cat   || ''; }
+function getDesc(p) { return p.d || p.desc  || ''; }
+
+/* ─── INIT ──────────────────────────── */
+function init() {
+  // Intro: leave after 2.5s
+  setTimeout(() => {
+    const el = document.getElementById('intro');
+    el.classList.add('exit');
+    setTimeout(() => el.classList.add('gone'), 700);
+  }, 2500);
+
+  const stored = load();
+  ALL = [...BASE, ...stored];
+  FILTERED = [...ALL];
+  render(FILTERED);
+}
+
+/* ─── RENDER ────────────────────────── */
+function render(list) {
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <p>Aucun article trouvé</p>
+      <span>Essayez une autre catégorie</span>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = list.map((p, i) => {
+    const isNew = !p.id.startsWith('b');
+    const img = getImg(p), name = getName(p), price = getPrice(p), cat = getCat(p);
+    const placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%231a1a1a' width='200' height='200'/%3E%3Ctext fill='%23555' x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='40'%3E👟%3C/text%3E%3C/svg%3E";
+    return `
+    <div class="card" style="animation-delay:${Math.min(i * 0.045, 0.4)}s" onclick="handleCard(event,'${p.id}')">
+      ${isNew ? '<span class="card-badge">Nouveau</span>' : ''}
+      <div class="card-img">
+        <img src="${img}" alt="${name}" loading="lazy" onerror="this.src='${placeholder}'">
+        <div class="card-hover-cta">
+          <button class="card-cta-btn">Voir le produit</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${catLabel(cat)}</div>
+        <div class="card-name">${name}</div>
+        <div class="card-price">${fmt(price)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function handleCard(e, id) {
+  const p = ALL.find(x => x.id === id);
+  if (p) openDetail(p);
+}
+
+/* ─── FILTER ────────────────────────── */
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.ftab, .nav-link').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  const labels = {
+    all: 'Tous nos <em>articles</em>',
+    chaussures: 'Nos <em>sneakers</em>',
+    vetements: 'Nos <em>vêtements</em>',
+    accessoires: 'Nos <em>accessoires</em>'
+  };
+  const eyes = { all:'Collection complète', chaussures:'Sneakers & Chaussures', vetements:'Vêtements & Maillots', accessoires:'Sacs & Accessoires' };
+  document.getElementById('sec-h').innerHTML = labels[cat] || labels.all;
+  document.getElementById('sec-eye').textContent = eyes[cat] || eyes.all;
+  applyFilter();
+}
+
+function applyFilter(q = '') {
+  const sq = q || document.getElementById('nsearch').value.toLowerCase();
+  FILTERED = ALL.filter(p => {
+    const mc = currentCat === 'all' || getCat(p) === currentCat;
+    const ms = !sq || getName(p).toLowerCase().includes(sq) || getDesc(p).toLowerCase().includes(sq);
+    return mc && ms;
+  });
+  render(FILTERED);
+}
+
+/* ─── SEARCH ────────────────────────── */
+function doSearch(val) {
+  const q = val.toLowerCase().trim();
+  applyFilter(q);
+  const dd = document.getElementById('sresults');
+  if (!q) { dd.style.display = 'none'; return; }
+  const hits = ALL.filter(p => getName(p).toLowerCase().includes(q)).slice(0, 6);
+  if (!hits.length) { dd.innerHTML = '<div class="sr-none">Aucun résultat</div>'; dd.style.display = 'block'; return; }
+  dd.innerHTML = hits.map(p => `
+    <div class="sr-item" onmousedown="openDetail(ALL.find(x=>x.id==='${p.id}'))">
+      <img src="${getImg(p)}" alt="" onerror="this.style.display='none'">
+      <div>
+        <div class="sr-item-name">${getName(p)}</div>
+        <div class="sr-item-price">${fmt(getPrice(p))}</div>
+      </div>
+    </div>`).join('');
+  dd.style.display = 'block';
+}
+
+/* ─── DETAIL ────────────────────────── */
+function openDetail(p) {
+  if (!p) return;
+  document.getElementById('d-img').src    = getImg(p);
+  document.getElementById('d-name').textContent  = getName(p);
+  document.getElementById('d-price').textContent = fmt(getPrice(p));
+  document.getElementById('d-desc').textContent  = getDesc(p);
+  document.getElementById('d-cat').textContent   = catLabel(getCat(p));
+  document.getElementById('d-crumb').textContent = getName(p);
+  document.getElementById('d-wa-btn').onclick = () => openWa(p);
+  document.getElementById('detail').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('detail').scrollTop = 0;
+}
+function closeDetail() {
+  document.getElementById('detail').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function openWa(p) {
+  const msg = encodeURIComponent(`Bonjour JOJO SNEAKERS !\n\nJe suis intéressé(e) par :\n*${getName(p)}*\nPrix : ${fmt(getPrice(p))}\n\nMerci !`);
+  window.open(`https://wa.me/${WA_NUM}?text=${msg}`, '_blank');
+}
+
+/* ─── HERO SLIDER ───────────────────── */
+const slides = document.querySelectorAll('.hslide');
+const dotBtns = document.querySelectorAll('.hero-dot-btn');
+function goSlide(i) {
+  slides[heroIdx].classList.remove('on');
+  dotBtns[heroIdx].classList.remove('on');
+  heroIdx = i;
+  slides[i].classList.add('on');
+  dotBtns[i].classList.add('on');
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => goSlide((heroIdx + 1) % slides.length), 5000);
+}
+heroTimer = setInterval(() => goSlide((heroIdx + 1) % slides.length), 5000);
+
+/* ─── NAVBAR SCROLL ─────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('glow', scrollY > 50);
+}, { passive: true });
+
+/* ─── MOBILE DRAWER ─────────────────── */
+let drawerOpen = false;
+function toggleDrawer() {
+  drawerOpen = !drawerOpen;
+  const d = document.getElementById('drawer');
+  const b = document.getElementById('burger');
+  d.style.display = drawerOpen ? 'flex' : 'none';
+  setTimeout(() => d.classList.toggle('open', drawerOpen), 10);
+  b.classList.toggle('open', drawerOpen);
+  document.body.style.overflow = drawerOpen ? 'hidden' : '';
+}
+function closeDrawer() {
+  drawerOpen = false;
+  const d = document.getElementById('drawer');
+  d.classList.remove('open');
+  document.getElementById('burger').classList.remove('open');
+  setTimeout(() => { if (!drawerOpen) d.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+}
+
+/* ─── PHOTO UPLOAD ──────────────────── */
+function handlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    // Compress
+    const img2 = new Image();
+    img2.onload = () => {
+      const canvas = document.createElement('canvas');
+      const max = 900;
+      const ratio = Math.min(max / img2.width, max / img2.height, 1);
+      canvas.width  = img2.width  * ratio;
+      canvas.height = img2.height * ratio;
+      canvas.getContext('2d').drawImage(img2, 0, 0, canvas.width, canvas.height);
+      photoData = canvas.toDataURL('image/jpeg', 0.78);
+      renderPhotoPreview(photoData);
+    };
+    img2.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function renderPhotoPreview(src) {
+  const zone = document.getElementById('photo-zone');
+  zone.classList.add('has-preview');
+  zone.querySelector('.preview-img') && zone.querySelector('.preview-img').remove();
+  zone.querySelector('.preview-clear') && zone.querySelector('.preview-clear').remove();
+  const img = document.createElement('img'); img.className = 'preview-img'; img.src = src;
+  zone.appendChild(img);
+  const btn = document.createElement('button'); btn.className = 'preview-clear'; btn.textContent = '✕';
+  btn.onclick = e => { e.stopPropagation(); clearPhoto(); };
+  zone.appendChild(btn);
+}
+function clearPhoto() {
+  photoData = null;
+  const zone = document.getElementById('photo-zone');
+  zone.classList.remove('has-preview');
+  zone.querySelector('.preview-img') && zone.querySelector('.preview-img').remove();
+  zone.querySelector('.preview-clear') && zone.querySelector('.preview-clear').remove();
+  document.getElementById('photo-input').value = '';
+}
+
+/* ─── ADMIN - PW ────────────────────── */
+function openGate() {
+  document.getElementById('pw-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('pw-input').focus(), 300);
+}
+function closeGate() {
+  document.getElementById('pw-overlay').classList.remove('open');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-err').style.display = 'none';
+}
+function checkPw() {
+  if (document.getElementById('pw-input').value === PASS) {
+    closeGate(); openAdmin();
+  } else {
+    document.getElementById('pw-err').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+/* ─── ADMIN PANEL ───────────────────── */
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function switchTab(tab, btn) {
+  document.querySelectorAll('.atab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tab-add').style.display  = tab === 'add'  ? 'block' : 'none';
+  document.getElementById('tab-list').style.display = tab === 'list' ? 'block' : 'none';
+  if (tab === 'list') renderAdminList();
+}
+function setStatus(msg, cls) {
+  const el = document.getElementById('status-bar');
+  el.textContent = msg; el.className = cls; el.style.display = 'block';
+  if (cls === 's-ok') setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function addProduct() {
+  const name  = document.getElementById('f-name').value.trim();
+  const cat   = document.getElementById('f-cat').value;
+  const price = document.getElementById('f-price').value.trim();
+  const desc  = document.getElementById('f-desc').value.trim();
+
+  if (!name || !price || !photoData) {
+    setStatus('Veuillez ajouter une photo, un nom et un prix.', 's-err');
+    return;
+  }
+
+  const btn = document.getElementById('pub-btn');
+  btn.disabled = true;
+  setStatus('Publication en cours…', 's-wait');
+
+  const newP = {
+    id: 'u' + Date.now(),
+    n: name, c: cat, p: price,
+    d: desc || `${name} — disponible chez JOJO SNEAKERS.`,
+    i: photoData
+  };
+
+  const stored = load();
+  stored.push(newP);
+  save(stored);
+  ALL = [...BASE, ...stored];
+  applyFilter();
+
+  clearPhoto();
+  document.getElementById('f-name').value  = '';
+  document.getElementById('f-price').value = '';
+  document.getElementById('f-desc').value  = '';
+  setStatus('Produit publié avec succès !', 's-ok');
+  showToast('Produit ajouté !', 't-ok');
+  btn.disabled = false;
+}
+
+function renderAdminList() {
+  const stored = load();
+  const el = document.getElementById('admin-list');
+  if (!stored.length) {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Aucun produit ajouté.</div>';
+    return;
+  }
+  el.innerHTML = stored.map(p => `
+    <div class="admin-row">
+      <img src="${p.i||p.img||''}" alt="" onerror="this.style.display='none'">
+      <div class="admin-row-info">
+        <div class="admin-row-name">${p.n||p.name||''}</div>
+        <div class="admin-row-price">${fmt(p.p||p.price||'')}</div>
+      </div>
+      <button class="delete-btn" onclick="deleteProduct('${p.id}')">🗑</button>
+    </div>`).join('');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Supprimer ce produit ?')) return;
+  const updated = load().filter(p => p.id !== id);
+  save(updated);
+  ALL = [...BASE, ...updated];
+  applyFilter();
+  renderAdminList();
+  showToast('Produit supprimé', 't-err');
+}
+
+/* ─── TOAST ─────────────────────────── */
+function showToast(msg, cls = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'show ' + cls;
+  setTimeout(() => t.className = cls, 3000);
+}
+
+/* ─── CLOSE OVERLAYS ON BG ──────────── */
+document.getElementById('pw-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeGate();
+});
+document.getElementById('admin-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeAdmin();
+});
+
+/* ─── GO ────────────────────────────── */
+init();
+</script>
+</body>
+</html>
